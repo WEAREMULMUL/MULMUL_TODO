@@ -1,5 +1,7 @@
 package com.mulmul.todo.domain.vo;
 
+import com.mulmul.todo.error.exception.PostStatusException;
+
 import java.util.Arrays;
 
 public enum Status {
@@ -16,6 +18,6 @@ public enum Status {
         return Arrays.stream(Status.values())
                 .filter(s -> s.status.equals(s))
                 .findAny()
-                .orElseThrow(() -> new RuntimeException("상태값이 이상하다.")); // TODO
+                .orElseThrow(PostStatusException::new); // TODO
     }
 }

@@ -1,4 +1,4 @@
-package com.mulmul.todo.common;
+package com.mulmul.todo.common.domain;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public class DateEntity {
+public abstract class DateEntity {
     @CreatedDate
     private LocalDateTime createdDate;
 
