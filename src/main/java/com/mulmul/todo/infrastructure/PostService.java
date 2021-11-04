@@ -7,6 +7,8 @@ import com.mulmul.todo.dto.response.PostCreateResponse;
 import com.mulmul.todo.dto.response.PostDetailResponse;
 import com.mulmul.todo.error.exception.NotExitsPostException;
 import com.mulmul.todo.repository.PostRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,5 +44,18 @@ public class PostService {
                 post.getContent(),
                 post.getStatus()
         );
+    }
+
+    @Transactional(readOnly = true)
+    public Page<PostDetailResponse> findAll(Pageable pageable) {
+        return postRepository.findAll(pageable)
+                .map(post ->
+                        new PostDetailResponse(
+                                post.getId(),
+                                post.getTitle(),
+                                post.getContent(),
+                                post.getStatus()
+                        )
+                );
     }
 }

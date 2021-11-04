@@ -11,6 +11,8 @@ import com.mulmul.todo.dto.response.PostDetailResponse;
 import com.mulmul.todo.infrastructure.PostService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
@@ -74,6 +76,24 @@ public class PostController {
         return ResponseEntity.ok(
                 ResponseDto.of(
                         ResponseMessage.POST_READ_SUCCESS,
+                        entityModel
+                )
+        );
+    }
+
+    @ApiOperation("TODO-LIST 전체 조회")
+    @GetMapping()
+    public ResponseEntity<ResponseDto<Page<PostDetailResponse>>> findAll(Pageable pageable) {
+        Page<PostDetailResponse> response = postService.findAll(pageable);
+
+        EntityModel<Page<PostDetailResponse>> entityModel = EntityModel.of(response,
+                getLinkToAddress().withRel(LinkType.CREATE_METHOD).withMedia(MediaTypes.HAL_JSON_VALUE).withType(HttpMethod.POST.name()),
+                getLinkToAddress().withRel(LinkType.READ_ALL_METHOD).withMedia(MediaTypes.HAL_JSON_VALUE).withType(HttpMethod.GET.name())
+        );
+
+        return ResponseEntity.ok(
+                ResponseDto.of(
+                        ResponseMessage.POST_READ_ALL_SUCCESS,
                         entityModel
                 )
         );

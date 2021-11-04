@@ -12,8 +12,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.test.web.servlet.MockMvc;
+
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -37,6 +40,12 @@ class PostControllerTest {
 
     @MockBean
     private PostService postService;
+
+    @MockBean
+    private Pageable pageable;
+
+    @MockBean
+    private Page<PostDetailResponse> postDetailResponsePage;
 
     @Test
     void TODO_LIST_생성() throws Exception {
@@ -66,6 +75,19 @@ class PostControllerTest {
 
         // then
         mockMvc.perform(get("/api/v1/posts/{id}", POST_ID)
+                        .contentType(MediaTypes.HAL_JSON_VALUE)
+                        .accept(MediaTypes.HAL_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    void TODO_LIST_전체_조회() throws Exception {
+        // given & when
+        when(postService.findAll(pageable)).thenReturn(postDetailResponsePage);
+
+        // then
+        mockMvc.perform(get("/api/v1/posts")
                         .contentType(MediaTypes.HAL_JSON_VALUE)
                         .accept(MediaTypes.HAL_JSON_VALUE))
                 .andExpect(status().isOk())

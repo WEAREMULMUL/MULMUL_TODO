@@ -4,12 +4,15 @@ import com.mulmul.todo.domain.Post;
 import com.mulmul.todo.domain.vo.Status;
 import com.mulmul.todo.dto.bundle.PostCreateBundle;
 import com.mulmul.todo.dto.bundle.PostFindBundle;
+import com.mulmul.todo.dto.response.PostDetailResponse;
 import com.mulmul.todo.repository.PostRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.Optional;
 
@@ -28,7 +31,13 @@ class PostServiceTest {
     @InjectMocks
     private PostService postService;
 
+    @Mock
+    private Pageable pageable;
+
     private final Post entity = new Post(POST_ID, POST_TITLE, POST_CONTENT, Status.PROCEEDING);
+
+    @Mock
+    private Page<Post> posts;
 
     @Test
     void TODO_LIST_생성() {
@@ -48,12 +57,24 @@ class PostServiceTest {
     void TODO_LIST_단건_조회() {
         // given
         PostFindBundle bundle = new PostFindBundle(POST_ID);
-        given(postRepository.findById(POST_ID)).willReturn(Optional.of(entity));
+        when(postRepository.findById(POST_ID)).thenReturn(Optional.of(entity));
 
         // when
         postService.find(bundle);
 
         // then
         verify(postRepository).findById(POST_ID);
+    }
+
+    @Test
+    void TODO_LIST_전체_조회() {
+        // given
+        when(postRepository.findAll(pageable)).thenReturn(posts);
+
+        // when
+        postService.findAll(pageable);
+
+        // then
+        verify(postRepository).findAll(pageable);
     }
 }
