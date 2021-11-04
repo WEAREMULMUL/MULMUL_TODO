@@ -1,10 +1,7 @@
 package com.mulmul.todo.infrastructure;
 
 import com.mulmul.todo.domain.Post;
-import com.mulmul.todo.dto.bundle.PostCreateBundle;
-import com.mulmul.todo.dto.bundle.PostDeleteBundle;
-import com.mulmul.todo.dto.bundle.PostFindBundle;
-import com.mulmul.todo.dto.bundle.PostUpdateBundle;
+import com.mulmul.todo.dto.bundle.*;
 import com.mulmul.todo.dto.response.PostCreateResponse;
 import com.mulmul.todo.dto.response.PostDeleteResponse;
 import com.mulmul.todo.dto.response.PostDetailResponse;
@@ -85,5 +82,20 @@ public class PostService {
         postRepository.delete(post);
 
         return new PostDeleteResponse(post.getId(), post.getTitle());
+    }
+
+    @Transactional
+    public PostDetailResponse changeStatus(PostStatusChangeBundle bundle) {
+        Post post = postRepository.findById(bundle.getId())
+                .orElseThrow(NotExitsPostException::new);
+
+        post.changeStatus(bundle.getStatus());
+
+        return new PostDetailResponse(
+                post.getId(),
+                post.getTitle(),
+                post.getContent(),
+                post.getStatus()
+        );
     }
 }

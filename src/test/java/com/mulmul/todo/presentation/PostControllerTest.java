@@ -124,4 +124,20 @@ class PostControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print());
     }
+
+    @Test
+    void TODO_LIST_STATUS_수정() throws Exception {
+        // given
+        PostDetailResponse response = new PostDetailResponse(POST_ID, POST_TITLE, POST_CONTENT, Status.PROCEEDING);
+
+        // when
+        when(postService.changeStatus(any())).thenReturn(response);
+
+        // then
+        mockMvc.perform(patch("/api/v1/posts/{id}", POST_ID)
+                        .contentType(MediaTypes.HAL_JSON_VALUE)
+                        .accept(MediaTypes.HAL_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
 }

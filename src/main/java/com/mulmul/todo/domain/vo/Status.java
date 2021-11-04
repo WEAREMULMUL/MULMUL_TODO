@@ -14,10 +14,10 @@ public enum Status {
         this.status = status;
     }
 
-    public static Status of(String status) {
+    public static Status of(String inputStatus) {
         return Arrays.stream(Status.values())
-                .filter(s -> s.status.equals(s))
+                .filter(s -> inputStatus.equals(s.status))
                 .findAny()
-                .orElseThrow(PostStatusException::new); // TODO
+                .orElseThrow(PostStatusException::new);
     }
 }

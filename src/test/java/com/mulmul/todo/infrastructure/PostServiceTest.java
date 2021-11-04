@@ -2,10 +2,7 @@ package com.mulmul.todo.infrastructure;
 
 import com.mulmul.todo.domain.Post;
 import com.mulmul.todo.domain.vo.Status;
-import com.mulmul.todo.dto.bundle.PostCreateBundle;
-import com.mulmul.todo.dto.bundle.PostDeleteBundle;
-import com.mulmul.todo.dto.bundle.PostFindBundle;
-import com.mulmul.todo.dto.bundle.PostUpdateBundle;
+import com.mulmul.todo.dto.bundle.*;
 import com.mulmul.todo.repository.PostRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,6 +22,7 @@ class PostServiceTest {
     private final Long POST_ID = 1L;
     private final String POST_TITLE = "코딩";
     private final String POST_CONTENT = "코딩하자!!";
+    private final String POST_STATUS = "완료";
 
     @Mock
     private PostRepository postRepository;
@@ -104,5 +102,18 @@ class PostServiceTest {
         // then
         verify(postRepository).findById(POST_ID);
         verify(postRepository).delete(entity);
+    }
+
+    @Test
+    void TODO_LIST_STATUS_수정() {
+        // given
+        PostStatusChangeBundle bundle = new PostStatusChangeBundle(POST_ID, POST_STATUS);
+        when(postRepository.findById(POST_ID)).thenReturn(Optional.of(entity));
+
+        // when
+        postService.changeStatus(bundle);
+
+        // then
+        verify(postRepository).findById(POST_ID);
     }
 }
