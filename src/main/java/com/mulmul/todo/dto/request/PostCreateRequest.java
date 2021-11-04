@@ -8,7 +8,6 @@ public class PostCreateRequest {
     private String content;
 
     protected PostCreateRequest() {
-        
     }
 
     public PostCreateRequest(String title, String content) {

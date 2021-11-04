@@ -4,7 +4,6 @@ import com.mulmul.todo.domain.Post;
 import com.mulmul.todo.domain.vo.Status;
 import com.mulmul.todo.dto.bundle.PostCreateBundle;
 import com.mulmul.todo.dto.bundle.PostFindBundle;
-import com.mulmul.todo.dto.response.PostDetailResponse;
 import com.mulmul.todo.repository.PostRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
