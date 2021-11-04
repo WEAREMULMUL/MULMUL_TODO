@@ -15,7 +15,7 @@ public class Post extends DateEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "post_title")
+    @Column(name = "post_title", nullable = false)
     private String title;
 
     @Lob
@@ -72,11 +72,17 @@ public class Post extends DateEntity {
         if (this == o) {
             return true;
         }
+
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
+
         Post post = (Post) o;
-        return Objects.equals(id, post.id) && Objects.equals(title, post.title) && Objects.equals(content, post.content) && status == post.status;
+
+        return Objects.equals(id, post.id)
+                && Objects.equals(title, post.title)
+                && Objects.equals(content, post.content)
+                && status == post.status;
     }
 
     @Override

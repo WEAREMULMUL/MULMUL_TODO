@@ -1,7 +1,5 @@
 package com.mulmul.todo.dto.request;
 
-import javax.validation.constraints.NotBlank;
-
 public class PostStatusChangeRequest {
     private String status;
 
