@@ -42,6 +42,11 @@ public class Post extends DateEntity {
         this.status = status;
     }
 
+    public void update(String title, String content) {
+        this.title = title;
+        this.content = content;
+    }
+
     public Long getId() {
         return id;
     }

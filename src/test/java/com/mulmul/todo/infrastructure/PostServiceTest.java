@@ -4,6 +4,7 @@ import com.mulmul.todo.domain.Post;
 import com.mulmul.todo.domain.vo.Status;
 import com.mulmul.todo.dto.bundle.PostCreateBundle;
 import com.mulmul.todo.dto.bundle.PostFindBundle;
+import com.mulmul.todo.dto.bundle.PostUpdateBundle;
 import com.mulmul.todo.repository.PostRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -75,5 +76,18 @@ class PostServiceTest {
 
         // then
         verify(postRepository).findAll(pageable);
+    }
+
+    @Test
+    void TODO_LIST_수정() {
+        // given
+        PostUpdateBundle bundle = new PostUpdateBundle(POST_ID, POST_TITLE, POST_CONTENT);
+        when(postRepository.findById(POST_ID)).thenReturn(Optional.of(entity));
+
+        // when
+        postService.update(bundle);
+
+        // then
+        verify(postRepository).findById(POST_ID);
     }
 }

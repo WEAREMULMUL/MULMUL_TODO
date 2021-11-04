@@ -19,8 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -87,6 +86,22 @@ class PostControllerTest {
 
         // then
         mockMvc.perform(get("/api/v1/posts")
+                        .contentType(MediaTypes.HAL_JSON_VALUE)
+                        .accept(MediaTypes.HAL_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    void TODO_LIST_수정() throws Exception {
+        // given
+        PostDetailResponse response = new PostDetailResponse(POST_ID, POST_TITLE, POST_CONTENT, Status.PROCEEDING);
+
+        // when
+        when(postService.update(any())).thenReturn(response);
+
+        // then
+        mockMvc.perform(put("/api/v1/posts/{id}", POST_ID)
                         .contentType(MediaTypes.HAL_JSON_VALUE)
                         .accept(MediaTypes.HAL_JSON_VALUE))
                 .andExpect(status().isOk())
