@@ -4,11 +4,13 @@ import com.mulmul.todo.common.domain.LinkType;
 import com.mulmul.todo.common.dto.ResponseDto;
 import com.mulmul.todo.common.dto.ResponseMessage;
 import com.mulmul.todo.dto.bundle.PostCreateBundle;
+import com.mulmul.todo.dto.bundle.PostDeleteBundle;
 import com.mulmul.todo.dto.bundle.PostFindBundle;
 import com.mulmul.todo.dto.bundle.PostUpdateBundle;
 import com.mulmul.todo.dto.request.PostCreateRequest;
 import com.mulmul.todo.dto.request.PostUpdateRequest;
 import com.mulmul.todo.dto.response.PostCreateResponse;
+import com.mulmul.todo.dto.response.PostDeleteResponse;
 import com.mulmul.todo.dto.response.PostDetailResponse;
 import com.mulmul.todo.infrastructure.PostService;
 import io.swagger.annotations.Api;
@@ -74,7 +76,9 @@ public class PostController {
         EntityModel<PostDetailResponse> entityModel = EntityModel.of(response,
                 getLinkToAddress().withRel(LinkType.CREATE_METHOD).withMedia(MediaTypes.HAL_JSON_VALUE).withType(HttpMethod.POST.name()),
                 getLinkToAddress().withSelfRel().withMedia(MediaTypes.HAL_JSON_VALUE).withType(HttpMethod.GET.name()),
-                getLinkToAddress().withRel(LinkType.READ_ALL_METHOD).withMedia(MediaTypes.HAL_JSON_VALUE).withType(HttpMethod.GET.name())
+                getLinkToAddress().withRel(LinkType.READ_ALL_METHOD).withMedia(MediaTypes.HAL_JSON_VALUE).withType(HttpMethod.GET.name()),
+                getLinkToAddress().slash("{id}").withRel(LinkType.UPDATE_METHOD).withMedia(MediaTypes.HAL_JSON_VALUE).withMedia(HttpMethod.PUT.name()),
+                getLinkToAddress().slash("{id}").withRel(LinkType.DELETE_METHOD).withMedia(MediaTypes.HAL_JSON_VALUE).withMedia(HttpMethod.DELETE.name())
         );
 
         return ResponseEntity.ok(
@@ -93,7 +97,9 @@ public class PostController {
         EntityModel<Page<PostDetailResponse>> entityModel = EntityModel.of(response,
                 getLinkToAddress().withRel(LinkType.CREATE_METHOD).withMedia(MediaTypes.HAL_JSON_VALUE).withType(HttpMethod.POST.name()),
                 getLinkToAddress().slash("{id}").withRel(LinkType.READ_METHOD).withMedia(MediaTypes.HAL_JSON_VALUE).withType(HttpMethod.GET.name()),
-                getLinkToAddress().withSelfRel().withMedia(MediaTypes.HAL_JSON_VALUE).withType(HttpMethod.GET.name())
+                getLinkToAddress().withSelfRel().withMedia(MediaTypes.HAL_JSON_VALUE).withType(HttpMethod.GET.name()),
+                getLinkToAddress().slash("{id}").withRel(LinkType.UPDATE_METHOD).withMedia(MediaTypes.HAL_JSON_VALUE).withMedia(HttpMethod.PUT.name()),
+                getLinkToAddress().slash("{id}").withRel(LinkType.DELETE_METHOD).withMedia(MediaTypes.HAL_JSON_VALUE).withMedia(HttpMethod.DELETE.name())
         );
 
         return ResponseEntity.ok(
@@ -108,18 +114,43 @@ public class PostController {
     @PutMapping(value = "/{id}")
     public ResponseEntity<ResponseDto<PostDetailResponse>> update(@PathVariable Long id, @Valid @RequestBody PostUpdateRequest request) {
         PostUpdateBundle bundle = new PostUpdateBundle(id, request.getTitle(), request.getContent());
+
         PostDetailResponse response = postService.update(bundle);
 
         EntityModel<PostDetailResponse> entityModel = EntityModel.of(response,
                 getLinkToAddress().withRel(LinkType.CREATE_METHOD).withMedia(MediaTypes.HAL_JSON_VALUE).withType(HttpMethod.POST.name()),
                 getLinkToAddress().slash(response.getId()).withRel(LinkType.READ_METHOD).withMedia(MediaTypes.HAL_JSON_VALUE).withType(HttpMethod.GET.name()),
                 getLinkToAddress().withRel(LinkType.READ_ALL_METHOD).withMedia(MediaTypes.HAL_JSON_VALUE).withType(HttpMethod.GET.name()),
-                getLinkToAddress().withRel(LinkType.UPDATE_METHOD).withMedia(MediaTypes.HAL_JSON_VALUE).withMedia(HttpMethod.PUT.name())
+                getLinkToAddress().withSelfRel().withMedia(MediaTypes.HAL_JSON_VALUE).withMedia(HttpMethod.PUT.name()),
+                getLinkToAddress().slash(response.getId()).withRel(LinkType.DELETE_METHOD).withMedia(MediaTypes.HAL_JSON_VALUE).withMedia(HttpMethod.DELETE.name())
         );
 
         return ResponseEntity.ok(
                 ResponseDto.of(
                         ResponseMessage.POST_UPDATE_SUCCESS,
+                        entityModel
+                )
+        );
+    }
+
+    @ApiOperation("TODO-LIST 삭제")
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<ResponseDto<PostDeleteResponse>> update(@PathVariable Long id) {
+        PostDeleteBundle bundle = new PostDeleteBundle(id);
+
+        PostDeleteResponse response = postService.delete(bundle);
+
+        EntityModel<PostDeleteResponse> entityModel = EntityModel.of(response,
+                getLinkToAddress().withRel(LinkType.CREATE_METHOD).withMedia(MediaTypes.HAL_JSON_VALUE).withType(HttpMethod.POST.name()),
+                getLinkToAddress().slash(response.getId()).withRel(LinkType.READ_METHOD).withMedia(MediaTypes.HAL_JSON_VALUE).withType(HttpMethod.GET.name()),
+                getLinkToAddress().withRel(LinkType.READ_ALL_METHOD).withMedia(MediaTypes.HAL_JSON_VALUE).withType(HttpMethod.GET.name()),
+                getLinkToAddress().slash(response.getId()).withRel(LinkType.UPDATE_METHOD).withMedia(MediaTypes.HAL_JSON_VALUE).withMedia(HttpMethod.PUT.name()),
+                getLinkToAddress().withSelfRel().withMedia(MediaTypes.HAL_JSON_VALUE).withMedia(HttpMethod.DELETE.name())
+        );
+
+        return ResponseEntity.ok(
+                ResponseDto.of(
+                        ResponseMessage.POST_DELETE_SUCCESS,
                         entityModel
                 )
         );

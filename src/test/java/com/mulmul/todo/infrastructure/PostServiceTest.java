@@ -3,6 +3,7 @@ package com.mulmul.todo.infrastructure;
 import com.mulmul.todo.domain.Post;
 import com.mulmul.todo.domain.vo.Status;
 import com.mulmul.todo.dto.bundle.PostCreateBundle;
+import com.mulmul.todo.dto.bundle.PostDeleteBundle;
 import com.mulmul.todo.dto.bundle.PostFindBundle;
 import com.mulmul.todo.dto.bundle.PostUpdateBundle;
 import com.mulmul.todo.repository.PostRepository;
@@ -89,5 +90,19 @@ class PostServiceTest {
 
         // then
         verify(postRepository).findById(POST_ID);
+    }
+
+    @Test
+    void TODO_LIST_삭제() {
+        // given
+        PostDeleteBundle bundle = new PostDeleteBundle(POST_ID);
+        when(postRepository.findById(POST_ID)).thenReturn(Optional.of(entity));
+
+        // when
+        postService.delete(bundle);
+
+        // then
+        verify(postRepository).findById(POST_ID);
+        verify(postRepository).delete(entity);
     }
 }

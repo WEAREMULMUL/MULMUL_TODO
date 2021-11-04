@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mulmul.todo.domain.vo.Status;
 import com.mulmul.todo.dto.request.PostCreateRequest;
 import com.mulmul.todo.dto.response.PostCreateResponse;
+import com.mulmul.todo.dto.response.PostDeleteResponse;
 import com.mulmul.todo.dto.response.PostDetailResponse;
 import com.mulmul.todo.infrastructure.PostService;
 import org.junit.jupiter.api.Test;
@@ -102,6 +103,22 @@ class PostControllerTest {
 
         // then
         mockMvc.perform(put("/api/v1/posts/{id}", POST_ID)
+                        .contentType(MediaTypes.HAL_JSON_VALUE)
+                        .accept(MediaTypes.HAL_JSON_VALUE))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    void TODO_LIST_삭제() throws Exception {
+        // given
+        PostDeleteResponse response = new PostDeleteResponse(POST_ID, POST_TITLE);
+
+        // when
+        when(postService.delete(any())).thenReturn(response);
+
+        // then
+        mockMvc.perform(delete("/api/v1/posts/{id}", POST_ID)
                         .contentType(MediaTypes.HAL_JSON_VALUE)
                         .accept(MediaTypes.HAL_JSON_VALUE))
                 .andExpect(status().isOk())
