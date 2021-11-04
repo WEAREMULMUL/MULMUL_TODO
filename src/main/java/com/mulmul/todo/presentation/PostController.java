@@ -1,10 +1,13 @@
 package com.mulmul.todo.presentation;
 
+import com.mulmul.todo.common.domain.LinkType;
 import com.mulmul.todo.common.dto.ResponseDto;
 import com.mulmul.todo.common.dto.ResponseMessage;
 import com.mulmul.todo.dto.bundle.PostCreateBundle;
+import com.mulmul.todo.dto.bundle.PostFindBundle;
 import com.mulmul.todo.dto.request.PostCreateRequest;
 import com.mulmul.todo.dto.response.PostCreateResponse;
+import com.mulmul.todo.dto.response.PostDetailResponse;
 import com.mulmul.todo.infrastructure.PostService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -13,10 +16,7 @@ import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -24,7 +24,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @Api(tags = "POST DOMAIN")
 @RestController
-@RequestMapping(value = "/api/v1/posts", produces = MediaTypes.HAL_JSON_VALUE)
+@RequestMapping(value = "/api/v1/posts", consumes = MediaTypes.HAL_JSON_VALUE, produces = MediaTypes.HAL_JSON_VALUE)
 public class PostController {
     private final PostService postService;
 
@@ -37,7 +37,7 @@ public class PostController {
     }
 
     @ApiOperation("TODO-LIST 생성하기")
-    @PostMapping(consumes = MediaTypes.HAL_JSON_VALUE)
+    @PostMapping()
     public ResponseEntity<ResponseDto<PostCreateResponse>> add(@Valid @RequestBody PostCreateRequest request) {
         PostCreateBundle bundle = new PostCreateBundle(
                 request.getTitle(),
@@ -47,12 +47,33 @@ public class PostController {
         PostCreateResponse response = postService.create(bundle);
 
         EntityModel<PostCreateResponse> entityModel = EntityModel.of(response,
-                getLinkToAddress().withSelfRel().withMedia(MediaTypes.HAL_JSON_VALUE).withType(HttpMethod.POST.name())
+                getLinkToAddress().withSelfRel().withMedia(MediaTypes.HAL_JSON_VALUE).withType(HttpMethod.POST.name()),
+                getLinkToAddress().slash(response.getId()).withRel(LinkType.READ_METHOD).withMedia(MediaTypes.HAL_JSON_VALUE).withType(HttpMethod.GET.name())
         );
 
         return ResponseEntity.ok(
                 ResponseDto.of(
                         ResponseMessage.POST_CREATE_SUCCESS,
+                        entityModel
+                )
+        );
+    }
+
+    @ApiOperation("TODO-LIST 단건 조회")
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<ResponseDto<PostDetailResponse>> find(@PathVariable Long id) {
+        PostFindBundle bundle = new PostFindBundle(id);
+
+        PostDetailResponse response = postService.find(bundle);
+
+        EntityModel<PostDetailResponse> entityModel = EntityModel.of(response,
+                getLinkToAddress().withRel(LinkType.CREATE_METHOD).withMedia(MediaTypes.HAL_JSON_VALUE).withType(HttpMethod.POST.name()),
+                getLinkToAddress().withSelfRel().withMedia(MediaTypes.HAL_JSON_VALUE).withType(HttpMethod.GET.name())
+        );
+
+        return ResponseEntity.ok(
+                ResponseDto.of(
+                        ResponseMessage.POST_READ_SUCCESS,
                         entityModel
                 )
         );

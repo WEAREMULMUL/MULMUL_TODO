@@ -2,14 +2,16 @@ package com.mulmul.todo.dto.response;
 
 import com.mulmul.todo.domain.vo.Status;
 
-public class PostCreateResponse {
+public class PostDetailResponse {
     private final Long id;
     private final String title;
+    private final String content;
     private final String status;
 
-    public PostCreateResponse(Long id, String title, Status status) {
+    public PostDetailResponse(Long id, String title, String content, Status status) {
         this.id = id;
         this.title = title;
+        this.content = content;
         this.status = status.name();
     }
 
@@ -19,6 +21,10 @@ public class PostCreateResponse {
 
     public String getTitle() {
         return title;
+    }
+
+    public String getContent() {
+        return content;
     }
 
     public String getStatus() {

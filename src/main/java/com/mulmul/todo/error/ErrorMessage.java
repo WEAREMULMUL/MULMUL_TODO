@@ -5,7 +5,8 @@ import org.springframework.http.HttpStatus;
 public enum ErrorMessage {
     INVALID_INPUT_VALUE(HttpStatus.BAD_REQUEST, "잘못된 입력입니다."),
     INVALID_STATUS_INPUT(HttpStatus.BAD_REQUEST, "잘못된 상태값입니다."),
-    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "예상하지 못한 서버 에러입니다.");
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "예상하지 못한 서버 에러입니다."),
+    NOT_EXITS_POST(HttpStatus.NOT_FOUND, "존재하지 않는 포스트입니다.");
 
     private final HttpStatus status;
     private final String message;

@@ -3,12 +3,15 @@ package com.mulmul.todo.infrastructure;
 import com.mulmul.todo.domain.Post;
 import com.mulmul.todo.domain.vo.Status;
 import com.mulmul.todo.dto.bundle.PostCreateBundle;
+import com.mulmul.todo.dto.bundle.PostFindBundle;
 import com.mulmul.todo.repository.PostRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Optional;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
@@ -30,14 +33,27 @@ class PostServiceTest {
     @Test
     void TODO_LIST_생성() {
         // given
-        PostCreateBundle postCreateBundle = new PostCreateBundle(POST_TITLE, POST_CONTENT);
-        Post post = new Post(postCreateBundle.getTitle(), postCreateBundle.getContent());
+        PostCreateBundle bundle = new PostCreateBundle(POST_TITLE, POST_CONTENT);
+        Post post = new Post(bundle.getTitle(), bundle.getContent());
         given(postRepository.save(post)).willReturn(entity);
 
         // when
-        postService.create(postCreateBundle);
+        postService.create(bundle);
 
         // then
         verify(postRepository).save(post);
+    }
+
+    @Test
+    void TODO_LIST_단건_조회() {
+        // given
+        PostFindBundle bundle = new PostFindBundle(POST_ID);
+        given(postRepository.findById(POST_ID)).willReturn(Optional.of(entity));
+
+        // when
+        postService.find(bundle);
+
+        // then
+        verify(postRepository).findById(POST_ID);
     }
 }
