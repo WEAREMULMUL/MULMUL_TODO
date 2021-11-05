@@ -1,4 +1,4 @@
-package com.mulmul.todo.dto.request;
+package com.mulmul.todo.post.dto.request;
 
 import javax.validation.constraints.Pattern;
 

@@ -1,4 +1,4 @@
-package com.mulmul.todo.domain.vo;
+package com.mulmul.todo.post.domain.vo;
 
 import com.mulmul.todo.error.exception.PostStatusException;
 

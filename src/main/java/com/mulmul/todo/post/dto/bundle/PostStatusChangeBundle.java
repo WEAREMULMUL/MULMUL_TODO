@@ -1,6 +1,6 @@
-package com.mulmul.todo.dto.bundle;
+package com.mulmul.todo.post.dto.bundle;
 
-import com.mulmul.todo.domain.vo.Status;
+import com.mulmul.todo.post.domain.vo.Status;
 
 public class PostStatusChangeBundle {
     private final Long id;

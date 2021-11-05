@@ -1,4 +1,4 @@
-package com.mulmul.todo.dto.bundle;
+package com.mulmul.todo.post.dto.bundle;
 
 public class PostCreateBundle {
     private final String title;

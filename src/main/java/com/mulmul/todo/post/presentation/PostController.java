@@ -1,16 +1,16 @@
-package com.mulmul.todo.presentation;
+package com.mulmul.todo.post.presentation;
 
 import com.mulmul.todo.common.domain.LinkType;
 import com.mulmul.todo.common.dto.ResponseDto;
 import com.mulmul.todo.common.dto.ResponseMessage;
-import com.mulmul.todo.dto.bundle.*;
-import com.mulmul.todo.dto.request.PostCreateRequest;
-import com.mulmul.todo.dto.request.PostStatusChangeRequest;
-import com.mulmul.todo.dto.request.PostUpdateRequest;
-import com.mulmul.todo.dto.response.PostCreateResponse;
-import com.mulmul.todo.dto.response.PostDeleteResponse;
-import com.mulmul.todo.dto.response.PostDetailResponse;
-import com.mulmul.todo.infrastructure.PostService;
+import com.mulmul.todo.post.dto.bundle.*;
+import com.mulmul.todo.post.dto.request.PostCreateRequest;
+import com.mulmul.todo.post.dto.request.PostStatusChangeRequest;
+import com.mulmul.todo.post.dto.request.PostUpdateRequest;
+import com.mulmul.todo.post.dto.response.PostCreateResponse;
+import com.mulmul.todo.post.dto.response.PostDeleteResponse;
+import com.mulmul.todo.post.dto.response.PostDetailResponse;
+import com.mulmul.todo.post.application.PostService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Page;

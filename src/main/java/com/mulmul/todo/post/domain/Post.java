@@ -1,8 +1,8 @@
-package com.mulmul.todo.domain;
+package com.mulmul.todo.post.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mulmul.todo.common.domain.DateEntity;
-import com.mulmul.todo.domain.vo.Status;
+import com.mulmul.todo.post.domain.vo.Status;
 
 import javax.persistence.*;
 import java.util.Objects;

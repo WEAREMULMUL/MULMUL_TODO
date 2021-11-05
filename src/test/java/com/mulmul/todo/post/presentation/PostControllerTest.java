@@ -1,12 +1,12 @@
-package com.mulmul.todo.presentation;
+package com.mulmul.todo.post.presentation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mulmul.todo.domain.vo.Status;
-import com.mulmul.todo.dto.request.PostCreateRequest;
-import com.mulmul.todo.dto.response.PostCreateResponse;
-import com.mulmul.todo.dto.response.PostDeleteResponse;
-import com.mulmul.todo.dto.response.PostDetailResponse;
-import com.mulmul.todo.infrastructure.PostService;
+import com.mulmul.todo.post.domain.vo.Status;
+import com.mulmul.todo.post.dto.request.PostCreateRequest;
+import com.mulmul.todo.post.dto.response.PostCreateResponse;
+import com.mulmul.todo.post.dto.response.PostDeleteResponse;
+import com.mulmul.todo.post.dto.response.PostDetailResponse;
+import com.mulmul.todo.post.application.PostService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;

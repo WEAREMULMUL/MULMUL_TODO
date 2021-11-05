@@ -1,12 +1,12 @@
-package com.mulmul.todo.infrastructure;
+package com.mulmul.todo.post.application;
 
-import com.mulmul.todo.domain.Post;
-import com.mulmul.todo.dto.bundle.*;
-import com.mulmul.todo.dto.response.PostCreateResponse;
-import com.mulmul.todo.dto.response.PostDeleteResponse;
-import com.mulmul.todo.dto.response.PostDetailResponse;
+import com.mulmul.todo.post.domain.Post;
+import com.mulmul.todo.post.dto.bundle.*;
+import com.mulmul.todo.post.dto.response.PostCreateResponse;
+import com.mulmul.todo.post.dto.response.PostDeleteResponse;
+import com.mulmul.todo.post.dto.response.PostDetailResponse;
 import com.mulmul.todo.error.exception.NotExitsPostException;
-import com.mulmul.todo.repository.PostRepository;
+import com.mulmul.todo.post.infrastructure.PostRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

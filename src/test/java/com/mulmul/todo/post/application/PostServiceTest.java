@@ -1,9 +1,9 @@
-package com.mulmul.todo.infrastructure;
+package com.mulmul.todo.post.application;
 
-import com.mulmul.todo.domain.Post;
-import com.mulmul.todo.domain.vo.Status;
-import com.mulmul.todo.dto.bundle.*;
-import com.mulmul.todo.repository.PostRepository;
+import com.mulmul.todo.post.domain.Post;
+import com.mulmul.todo.post.domain.vo.Status;
+import com.mulmul.todo.post.dto.bundle.*;
+import com.mulmul.todo.post.infrastructure.PostRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

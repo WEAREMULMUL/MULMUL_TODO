@@ -1,4 +1,4 @@
-package com.mulmul.todo.dto.response;
+package com.mulmul.todo.post.dto.response;
 
 public class PostDeleteResponse {
     private final Long id;

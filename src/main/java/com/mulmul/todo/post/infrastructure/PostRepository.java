@@ -1,6 +1,6 @@
-package com.mulmul.todo.repository;
+package com.mulmul.todo.post.infrastructure;
 
-import com.mulmul.todo.domain.Post;
+import com.mulmul.todo.post.domain.Post;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
